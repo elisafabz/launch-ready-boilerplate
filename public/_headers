@@ -1,0 +1,26 @@
+# Security Headers - applied to every response by Netlify.
+# Docs: https://docs.netlify.com/routing/headers/
+#
+# This file is the single source of truth for the Content-Security-Policy.
+# Do NOT add a <meta http-equiv="Content-Security-Policy"> to index.html.
+# Note: _headers is Netlify-only. On another host (Vercel, Cloudflare Pages)
+# port these headers to that host's config, otherwise no headers are sent.
+#
+# CSP per project: when you enable a third-party service, extend the directives:
+#   GTM / GA4:      script-src https://www.googletagmanager.com
+#                   connect-src https://www.google-analytics.com https://*.google-analytics.com
+#                   img-src is already open to https:
+#   PostHog:        script-src + connect-src <your VITE_POSTHOG_HOST>
+#   Google Fonts:   style-src https://fonts.googleapis.com
+#                   font-src https://fonts.gstatic.com
+#   Stripe:         script-src https://js.stripe.com, frame-src https://js.stripe.com
+# style-src 'unsafe-inline' is required: sonner and Radix inject runtime styles.
+# script-src stays 'self': the Vite production build emits no inline scripts.
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Content-Security-Policy is set via HTTP header in public/_headers (single source of truth).
+         Do not add a <meta http-equiv="Content-Security-Policy"> here: browsers enforce the
+         intersection of both policies, and a meta CSP breaks the Vite dev server (inline preamble). -->
+
+    <!-- TODO: Replace title + description with the project's own (run `npm run launch-check`).
+         Site-wide defaults live here so crawlers without JS (OG scrapers) see them.
+         Per-route title/description/canonical: usePageMeta() in src/hooks/usePageMeta.ts.
+         %VITE_SITE_URL% is replaced at build time from .env (see .env.example). -->
+    <title>Project Name</title>
+    <meta name="description" content="Short project description (max 160 characters)" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+
+    <!-- Icons. TODO: replace favicon.svg + apple-touch-icon.png (generated from it). -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp). og:image must be absolute and 1200x630. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Project Name" />
+    <meta property="og:title" content="Project Name" />
+    <meta property="og:description" content="Short project description" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:locale" content="de_AT" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Project Name" />
+    <meta name="twitter:description" content="Short project description" />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

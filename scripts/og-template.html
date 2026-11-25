@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<style>
+  /* TODO: project name, claim, colors. Keep text inside the safe area (60px padding). */
+  :root { --bg: #18181b; --fg: #fafafa; --muted: #a1a1aa; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: #fff; }
+  #og { width: 1200px; height: 630px; box-sizing: border-box; padding: 72px; background: var(--bg); color: var(--fg); display: flex; flex-direction: column; justify-content: space-between; }
+  #og .name { font-size: 40px; font-weight: 600; letter-spacing: -0.01em; }
+  #og .claim { font-size: 64px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; max-width: 960px; }
+  #og .domain { font-size: 28px; color: var(--muted); }
+  #icon { width: 180px; height: 180px; background: var(--bg); color: var(--fg); display: grid; place-items: center; font-size: 104px; font-weight: 700; font-family: system-ui, sans-serif; border-radius: 0; }
+</style>
+</head>
+<body>
+  <div id="og">
+    <div class="name">Project Name</div>
+    <div class="claim">Short one-sentence description of the project.</div>
+    <div class="domain">example.com</div>
+  </div>
+  <div id="icon">V</div>
+</body>
+</html>

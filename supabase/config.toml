@@ -1,0 +1,16 @@
+project_id = "your-project-id"
+
+# Gateway JWT check. Default for EVERY function without its own block is
+# verify_jwt = true: the Supabase gateway rejects requests without a valid
+# Supabase-signed JWT before the function runs. createHandler() then does its
+# own auth check on top of this (double-layer).
+#
+# For every function created with `createHandler(fn, { public: true })`
+# (webhooks, health checks, contact forms) you MUST add a block with
+# verify_jwt = false, otherwise the gateway answers 401 and the handler
+# never runs:
+#
+#   [functions.my-webhook]
+#     verify_jwt = false
+[functions.example-hello]
+  verify_jwt = true

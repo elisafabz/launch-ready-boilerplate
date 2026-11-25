@@ -1,0 +1,72 @@
+# Cursor Rules
+
+## Project Guidelines
+- Use only English for naming routes, files, functions, writing comments etc.
+- Use responsive design — one component for desktop and mobile, no duplicates
+- Always place images in `src/assets/` not in `public/` — compiler optimization
+- Commits: short, clear, imperative mood ("fix:", "add:", "refine:")
+- Small, focused commits — 5 small ones over 1 large one
+
+## Business Logic
+- All operations with business logic require an API (Edge Function)
+- All API endpoints should be atomic and implemented as Supabase Edge Functions
+- All APIs must be authenticated and authorized — unless explicitly public
+- **Do not reach directly to Supabase DB from the frontend** — always go through API
+- RLS on every table, policies as simple and minimal as possible
+
+## Development Standards
+- Follow TypeScript best practices and maintain type safety
+- Use Tailwind CSS for styling — avoid custom CSS when possible
+- Leverage shadcn/ui components before creating custom ones
+- Keep components small and focused on single responsibilities
+- Use React hooks appropriately and avoid unnecessary re-renders
+- Implement proper error boundaries for better user experience
+- Validate all user input with Zod on the backend. Frontend validation is optional for prototypes
+
+## Security (ALWAYS follow)
+- **NEVER** hardcode secrets, API keys, or tokens in code
+- **NEVER** use Supabase `service_role` key in frontend code
+- **NEVER** mutate DB directly from frontend — always through authenticated Edge Functions
+- **NEVER** use `dangerouslySetInnerHTML` with user input
+- **NEVER** generate RLS policies with `USING (true)` for anon or authenticated roles
+- **NEVER** leak validation error details (Zod `.format()`, `.flatten()`, `.issues`) in API responses — log server-side only
+- **Mandatory code review** before deploying any Edge Function, RLS policy, or DB migration
+- RLS must be enabled on every table with minimal, simple policies
+- CORS must be restricted to production domains only — never `*`
+- Error responses must not leak internal details (stack traces, DB errors)
+- No `console.log` with sensitive data in production
+- Only `VITE_` prefixed env vars are visible in frontend — use intentionally
+- `.env` files must be in `.gitignore` — never commit secrets
+- See `SECURITY_RULES.md` for full reference
+
+## Supabase Edge Functions
+- Use `createHandler()` from `_shared/handler.ts` for all new Edge Functions
+- Register every function in `supabase/config.toml` with `verify_jwt = false` (auth is handled internally by the handler)
+- For edge cases (streaming, WebSockets), use individual helpers from `_shared/` directly
+- See `supabase/functions/example-hello/index.ts` as reference
+
+## Testing
+- Unit tests: `npm run test` (Vitest, files in `tests/unit/`)
+- E2E tests: `npm run test:e2e` (Playwright, files in `tests/e2e/`)
+- After `npm install`, run `npx playwright install` to download browser binaries
+- Test files use `*.spec.ts` extension
+
+## Adding Git Repos, Packages, or Skills (ALWAYS follow)
+- **Before** adding a new git submodule, remote, npm package, or skill/plugin:
+  1. Verify the source — check the repo/package owner, stars, maintenance activity, and known vulnerabilities
+  2. Review permissions — what access does it request? (filesystem, network, env vars, scripts)
+  3. Check for lifecycle scripts (`postinstall`, `preinstall`) — these can execute arbitrary code on install
+  4. Confirm the package/repo is actively maintained and has no critical CVEs
+  5. Prefer well-known, widely-adopted packages over obscure alternatives
+  6. **Ask for explicit approval** before proceeding with the install or addition
+- **Never** blindly add a dependency suggested by AI, Stack Overflow, or a tutorial without verifying it first
+- **Never** add git remotes or submodules pointing to untrusted or unverified sources
+- **Never** install packages that request excessive permissions relative to their purpose
+- Run `npm audit` after adding any new package and address findings before committing
+
+## Dont's
+- No new npm packages without discussion
+- No unnecessary abstractions or over-engineering
+- No auto-generated doc files without discussion
+- No changes to Supabase migrations without context
+- No generic stock photos or random placeholder images
