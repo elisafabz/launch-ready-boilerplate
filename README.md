@@ -1,6 +1,66 @@
 # react-supabase-boilerplate
 
-React 19 · Vite 8 · TypeScript · Tailwind v4 · shadcn/ui · Supabase (Edge Functions + DB)
+[![E2E Tests](https://github.com/elisafabz/react-supabase-boilerplate/actions/workflows/e2e-tests.yml/badge.svg)](https://github.com/elisafabz/react-supabase-boilerplate/actions/workflows/e2e-tests.yml)
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
+
+React 19 · Vite · TypeScript · Tailwind v4 · shadcn/ui · Supabase (Edge Functions + DB)
+
+## In plain words
+
+Imagine you want to build a house. You could start with an empty plot and figure out the foundation, the plumbing, the electrics and the locks yourself. Or you could start with a house where all of that is already installed and checked, and you only decide on the walls, the furniture and the colours.
+
+This repository is that ready-made foundation for a web app or an online product. It is an empty but safe starting point: the technical groundwork that every product needs, and that is easy to get wrong, is already done.
+
+**What it gives you**
+- A working project you can open on day one, instead of a week of setup.
+- Safe defaults: passwords and keys are kept out of the places where they could leak, and the part that does the "real work" runs on a server, not in the visitor's browser.
+- Automatic checks that catch mistakes before your product goes live, including a "ready to launch?" check that stops you from shipping placeholder text.
+
+**Who it helps**
+- Founders and product people who want to test an idea quickly, with or without a developer. It also pairs well with AI coding tools like Claude Code, because the rules are written down for them to follow.
+- Developers who are tired of rebuilding the same setup for every project.
+
+**What it is not:** a finished product. It starts nearly empty on purpose. You add your idea on top.
+
+## Why this exists
+
+Every new product repeats the same setup, and the first version of that setup is where the expensive mistakes happen: secrets in the frontend, direct database access from the browser, missing security headers, no tests, no CI, and placeholder content that ships to production.
+
+This starter bakes in the boring but critical parts from the first commit, so you can spend your time on the product.
+
+- **Who it is for:** solo founders and small teams shipping an MVP on React and Supabase.
+- **Core assumption:** all business logic lives in Edge Functions behind authentication, never in the frontend. The browser only holds the public (publishable) key.
+- **Assumes:** a Supabase project, static hosting (a `netlify.toml` is included), Node 20.19+ or 22.13+.
+- **Not for:** server-side rendering, or backends other than Supabase.
+- **Trade-off:** it is opinionated. You get safe defaults and a launch gate (`npm run launch-check`) in exchange for following its structure.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    U["Browser<br/>React + Vite SPA"] -->|"supabase.functions.invoke()"| E["Edge Function<br/>createHandler()"]
+    E --> A["Auth<br/>JWT + optional role"]
+    E --> R["Rate limit<br/>per user / IP"]
+    E --> V["Validation<br/>Zod schema"]
+    E --> L["Business logic"]
+    L --> D[("Supabase Postgres<br/>RLS enabled")]
+    CI["GitHub Actions<br/>lint + E2E on every push"] -.->|"on every push"| U
+    CI -.-> E
+```
+
+Every Edge Function follows the same pipeline (preflight, auth, rate limit, validate, logic, response). The browser never sees a privileged key. See `supabase/functions/README.md`.
+
+## Quality gates
+
+| Gate | Command | What it enforces |
+|------|---------|------------------|
+| Lint | `npm run lint` | Must stay clean, CI enforces it |
+| Unit tests | `npm run test` | Vitest |
+| End-to-end tests | `npm run test:e2e` | Playwright against a local Supabase stack |
+| Bundle budget | `npm run build` | Fails when a chunk exceeds the gzip budget |
+| Security headers | `public/_headers` | CSP, HSTS and friends |
+| Launch gate | `npm run launch-check` | Placeholders, favicon, social image, site URL |
+| Dependency audit | weekly workflow | Known vulnerabilities in dependencies |
 
 ## Setup
 
@@ -45,79 +105,3 @@ from it — see the header comment in that file for why, and what to re-check af
 running `npx shadcn@latest add`.
 
 ---
-
-## Template notes
-
-This project is based on React + TypeScript + Vite.
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
