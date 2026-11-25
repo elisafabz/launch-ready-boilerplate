@@ -18,7 +18,8 @@ This repository is that ready-made foundation for a web app or an online product
 
 **Who it helps**
 - Founders and product people who want to test an idea quickly, with or without a developer. It also pairs well with AI coding tools like Claude Code, because the rules are written down for them to follow.
-- Developers who are tired of rebuilding the same setup for every project.
+- Anyone who builds with AI coding tools and wants guardrails from the first commit.
+- Developers can use it too as a quick starting point, but it is written with beginners in mind.
 
 **What it is not:** a finished product. It starts nearly empty on purpose. You add your idea on top.
 
@@ -28,11 +29,15 @@ Every new product repeats the same setup, and the first version of that setup is
 
 This starter bakes in the boring but critical parts from the first commit, so you can spend your time on the product.
 
-- **Who it is for:** solo founders and small teams shipping an MVP on React and Supabase.
+- **Who it is for:** vibe coders, non-technical founders and venture builders who build with AI coding tools, and small teams shipping an MVP on React and Supabase. It is not meant to compete with the setups experienced engineers build for themselves.
 - **Core assumption:** all business logic lives in Edge Functions behind authentication, never in the frontend. The browser only holds the public (publishable) key.
 - **Assumes:** a Supabase project, static hosting (a `netlify.toml` is included), Node 20.19+ or 22.13+.
 - **Not for:** server-side rendering, or backends other than Supabase.
 - **Trade-off:** it is opinionated. You get safe defaults and a launch gate (`npm run launch-check`) in exchange for following its structure.
+
+## A note on who made this
+
+This starter was made by a venture builder, not a professional software engineer, together with AI coding tools. It follows widely used practices and is covered by unit tests, end-to-end tests and CI. Still, have an experienced developer review it before you handle sensitive customer data or payments.
 
 ## Architecture
 
