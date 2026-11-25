@@ -1,6 +1,6 @@
-# react-supabase-boilerplate
+# launch-ready-boilerplate
 
-[![E2E Tests](https://github.com/elisafabz/react-supabase-boilerplate/actions/workflows/e2e-tests.yml/badge.svg)](https://github.com/elisafabz/react-supabase-boilerplate/actions/workflows/e2e-tests.yml)
+[![E2E Tests](https://github.com/elisafabz/launch-ready-boilerplate/actions/workflows/e2e-tests.yml/badge.svg)](https://github.com/elisafabz/launch-ready-boilerplate/actions/workflows/e2e-tests.yml)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
 React 19 · Vite · TypeScript · Tailwind v4 · shadcn/ui · Supabase (Edge Functions + DB)
