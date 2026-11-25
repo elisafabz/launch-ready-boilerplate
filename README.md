@@ -29,7 +29,7 @@ Every new product repeats the same setup, and the first version of that setup is
 
 This starter bakes in the boring but critical parts from the first commit, so you can spend your time on the product.
 
-- **Who it is for:** vibe coders, non-technical founders and venture builders who build with AI coding tools, and small teams shipping an MVP on React and Supabase. It is not meant to compete with the setups experienced engineers build for themselves.
+- **Who it is for:** vibe coders, non-technical founders and venture builders who build with AI coding tools, and small teams shipping an MVP on React and Supabase.
 - **Core assumption:** all business logic lives in Edge Functions behind authentication, never in the frontend. The browser only holds the public (publishable) key.
 - **Assumes:** a Supabase project, static hosting (a `netlify.toml` is included), Node 20.19+ or 22.13+.
 - **Not for:** server-side rendering, or backends other than Supabase.
